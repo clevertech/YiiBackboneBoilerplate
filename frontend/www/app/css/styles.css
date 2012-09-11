@@ -1,0 +1,9 @@
+#loader{
+    background: url('../img/ajax-loader.gif') no-repeat;
+    height: 22px;
+    position: absolute;
+    top: 8px;
+    width: 125px;
+    left: 10px;
+    display: none;
+}
