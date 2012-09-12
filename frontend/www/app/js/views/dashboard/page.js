@@ -9,8 +9,9 @@ define([
     'backboneMarionette',
     'text!templates/dashboard/page.html',
     'views/header/dashboard',
+    'app',
     'backboneBUI'
-], function (Marionette, DashboardPageTemplate, DashboardHeaderMenuView) {
+], function (Marionette, DashboardPageTemplate, DashboardHeaderMenuView, App) {
 
     return Marionette.ItemView.extend({
         template: DashboardPageTemplate,
@@ -27,7 +28,7 @@ define([
          */
         beforeRender: function() {
             var dashboardHeaderMenuView = new DashboardHeaderMenuView({model:new Backbone.Model({username:this.options.username})});
-            app.menuRegion.show(dashboardHeaderMenuView);
+            App.menuRegion.show(dashboardHeaderMenuView);
         }
     });
 });

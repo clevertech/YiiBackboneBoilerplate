@@ -1,15 +1,12 @@
 define([
     'backboneMarionette',
-    'http',
-    'router',
-    'views/index/page',
-    'views/footer/footer'
-], function (Marionette, Http, Router, IndexPageView, FooterPageView) {
+    'http'
+], function (Marionette, Http) {
 
     'use strict';
 
     /* create global object app, you can name it whatever you wish */
-    window.app = new Marionette.Application();
+    var app = new Marionette.Application();
 
     /* add regions -please see your views/layouts and views/site/index view file */
     app.addRegions({
@@ -18,9 +15,6 @@ define([
         pageRegion  : '.page',
         footerRegion: '.footer'
     });
-
-    /* attach router to the app */
-    app.router = Router;
 
     /* add initializer */
     app.addInitializer(function(){
@@ -44,19 +38,6 @@ define([
 
         /* You can remove it, this was to 'easy' the calls from the global object */
         // initialize Backbone custom extension methods
-        Marionette.ItemView.prototype.goTo = function (loc, options)
-        {
-            app.router.navigate(loc, _.extend({trigger:true},options || {}));
-        }
-
-        Marionette.ItemView.prototype.globalOn = function(name, callback)
-        {
-            app.vent.on(name, _.isFunction(callback)? callback : _.noop);
-        }
-
-        Marionette.ItemView.prototype.globalTrigger = function(name){
-            app.vent.trigger(name);
-        }
 
         /* lets override Backbone.Model.toJSON to include CSRF cookie validation */
         Backbone.Model.prototype.toJSON = function () {
@@ -73,19 +54,14 @@ define([
         Http.onAjaxError(function (number) {
             app.router.navigate('error/' + number, {trigger:true});
         })
-        // hook ajax calls and display a nice loader
-        .onAjaxStart(function () {
-            $('#loader').show();
-        })
-        // hide loader when finished AJAX call
-        .onAjaxComplete(function () {
-            $('#loader').hide();
-        });
-
-        /* render footer page */
-        var footerPage = new FooterPageView();
-        app.footerRegion.show(footerPage);
-
+            // hook ajax calls and display a nice loader
+            .onAjaxStart(function () {
+                $('#loader').show();
+            })
+            // hide loader when finished AJAX call
+            .onAjaxComplete(function () {
+                $('#loader').hide();
+            });
     });
 
     return app;

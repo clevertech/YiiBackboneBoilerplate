@@ -6,8 +6,9 @@
 define([
     'backboneMarionette',
     'http',
+    'app',
     'session'
-], function(Marionette, Http){
+], function(Marionette, Http, App) {
     'use strict';
 
     return {
@@ -15,28 +16,27 @@ define([
         goto_error: function (actions) {
             require(['views/error/page'], function(ErrorPage){
                 if(Http.isUnAuthorized(actions)) {
-                    app.router.navigate('index', {trigger:true});
+                    App.router.navigate('index', {trigger:true});
                     return false;
                 }
-                var description = Http.getStatusDescription(actions) || 'Unknown';
+                var description = Http.getStatusDescription(actions) || 'Unknown';
                 var errorPage = new ErrorPage({model: new Backbone.Model({number:actions, description:description})});
-                app.pageRegion.show(errorPage);
+                App.pageRegion.show(errorPage);
             });
         },
         /* renders index page - login*/
         goto_index: function() {
             require(['views/index/page'], function(IndexPage){
-
                 var indexPage = new IndexPage();
-                app.pageRegion.show(indexPage);
+                App.pageRegion.show(indexPage);
             })
 
         },
         /* renders settings page */
         goto_settings: function() {
             require(['views/settings/page'], function(SettingsPage){
-               var settingsPage = new SettingsPage();
-               app.pageRegion.show(settingsPage);
+                var settingsPage = new SettingsPage();
+                App.pageRegion.show(settingsPage);
             });
         },
         /* renders dashboard */
@@ -44,12 +44,12 @@ define([
 
             require(['views/dashboard/page'], function(DashboardPage){
                 var dashboardPage = new DashboardPage({username:username});
-                app.pageRegion.show(dashboardPage);
+                App.pageRegion.show(dashboardPage);
             });
         },
         /* triggers not found error/404 when page is not found */
         goto_notFound: function() {
-            app.router.navigate('error/404', {trigger: true});
+            App.router.navigate('error/404', {trigger: true});
         }
     }
 });

@@ -10,8 +10,9 @@ define([
     'session',
     'text!templates/index/page.html',
     'models/login',
+    'app',
     'backboneBUI'
-], function (Marionette, Session, IndexPageTemplate, LoginModel) {
+], function (Marionette, Session, IndexPageTemplate, LoginModel, App) {
 
     return Marionette.ItemView.extend({
 
@@ -35,7 +36,7 @@ define([
 
 
             // setup global events
-            this.globalOn('site:logout', this.logout);
+            App.vent.on('site:logout', this.logout, this);
 
             this.model = new LoginModel();
             this.model.on('error', this.error);
@@ -67,7 +68,7 @@ define([
                 username:this.model.get('username')
             });
             /* remove menu region */
-            app.menuRegion.close();
+            App.menuRegion.close();
         },
         /**
          * Checks authorization
@@ -75,12 +76,12 @@ define([
         checkAuth:function (model, value) {
             if (value) {
                 // now display dashboard
-                this.goTo('dashboard/' + model.get('username'));
+                App.router.navigate('dashboard/' + model.get('username'), {trigger: true});
             }
             else {
 
                 // now display index
-                this.goTo('index');
+                App.router.navigate('index', {trigger: true});
             }
 
         },
@@ -105,7 +106,6 @@ define([
          * Renders the login
          */
         onRender:function () {
-
             var that = this;
 
             Session.checkAuth(function (data) {

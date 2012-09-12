@@ -8,8 +8,9 @@
 define([
     'backboneMarionette',
     'text!templates/header/dashboard.html',
+    'app',
     'backboneBUI'
-], function (Marionette, DashboardTemplate) {
+], function (Marionette, DashboardTemplate, App) {
 
     return Marionette.ItemView.extend({
         template: DashboardTemplate,
@@ -33,7 +34,7 @@ define([
          * calls global app event
          */
         logout: function() {
-            this.globalTrigger('site:logout');
+            App.vent.trigger('site:logout');
         }
     });
 });

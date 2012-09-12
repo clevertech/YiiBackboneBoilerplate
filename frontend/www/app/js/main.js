@@ -68,11 +68,23 @@ require.config({
 ;
 
 // Let's kick off the application
+// Let's kick off the application
 require([
-    'app'
-], function (app) {
+    'app',
+    'router',
+    'views/footer/footer'
+], function (App, Router, FooterPageView) {
 
-    app.start();
+    App.addInitializer(function() {
+        /* render footer page */
+        var footerPage = new FooterPageView();
+        App.footerRegion.show(footerPage);
+    });
+
+    /* attach router to the app */
+    App.router = Router;
+
+    App.start();
 
     Backbone.history.start();
 });
