@@ -34,9 +34,6 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/app/css/bootstrap-responsive.css"/>
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/app/css/docs.css"/>
 
-
-	<link rel="stylesheet" type="text/css"
-	      href="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.css"/>
 	<!--using less instead? file not included-->
 	<!--<link rel="stylesheet/less" type="text/css" href="/less/styles.less">-->
 
@@ -73,7 +70,6 @@
 		<?php echo $content?>
 	</div>
 </div>
-<script src="http://twitter.github.com/bootstrap/assets/js/google-code-prettify/prettify.js"></script>
 <script>
 	window._gaq = [
 		['_setAccount', '<?php echo param('google.analytics.account'); // check global.php shortcut file at "common/lib/" ?>'],
