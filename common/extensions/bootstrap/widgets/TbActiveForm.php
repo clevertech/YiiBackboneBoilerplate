@@ -30,10 +30,10 @@ class TbActiveForm extends CActiveForm
 	 * @var string the form type. See class constants.
 	 */
 	public $type = self::TYPE_VERTICAL;
-    /**
-     * @var string input class.
-     */
-    public $input;
+	/**
+	 * @var string input class.
+	 */
+	public $input;
 	/**
 	 * @var boolean flag that indicates if the errors should be displayed as blocks.
 	 */
@@ -46,9 +46,9 @@ class TbActiveForm extends CActiveForm
 	public function init()
 	{
 		if (!isset($this->htmlOptions['class']))
-			$this->htmlOptions['class'] = 'form-'.$this->type;
+			$this->htmlOptions['class'] = 'form-' . $this->type;
 		else
-			$this->htmlOptions['class'] .= ' form-'.$this->type;
+			$this->htmlOptions['class'] .= ' form-' . $this->type;
 
 		if (!isset($this->inlineErrors))
 			$this->inlineErrors = $this->type === self::TYPE_HORIZONTAL;
@@ -199,6 +199,18 @@ class TbActiveForm extends CActiveForm
 	}
 
 	/**
+	 * Renders a WYSIWYG redactor editor
+	 * @param $model
+	 * @param $attribute
+	 * @param array $htmlOptions
+	 * @return string
+	 */
+	public function redactorRow($model, $attribute, $htmlOptions = array())
+	{
+		return $this->inputRow(TbInput::TYPE_REDACTOR, $model, $attribute, null, $htmlOptions);
+	}
+
+	/**
 	 * Renders a captcha row.
 	 * @param CModel $model the data model
 	 * @param string $attribute the attribute
@@ -222,6 +234,31 @@ class TbActiveForm extends CActiveForm
 	public function uneditableRow($model, $attribute, $htmlOptions = array())
 	{
 		return $this->inputRow(TbInput::TYPE_UNEDITABLE, $model, $attribute, null, $htmlOptions);
+	}
+
+	/**
+	 * Renders a datepicker field row.
+	 * @param CModel $model the data model
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions additional HTML attributes. 'events' and 'options' key specify the events
+	 * and configuration options of datepicker respectively.
+	 * @return string the generated row
+	 * @since 0.10.0
+	 */
+	public function datepickerRow($model, $attribute, $htmlOptions = array())
+	{
+		return $this->inputRow(TbInput::TYPE_DATEPICKER, $model, $attribute, null, $htmlOptions);
+	}
+
+	/**
+	 * @param $model
+	 * @param $attribute
+	 * @param array $htmlOptions addition HTML attributes. In order to pass initialization parameters to dateRange, you
+	 * need to set the HTML 'options' key with an array of configuration options. 'options' also has a
+	 */
+	public function dateRangeRow($model, $attribute, $htmlOptions = array())
+	{
+		return $this->inputRow(TbInput::TYPE_DATERANGEPICKER, $model, $attribute, null, $htmlOptions);
 	}
 
 	/**
@@ -276,7 +313,7 @@ class TbActiveForm extends CActiveForm
 		if ($model->hasErrors($attribute))
 		{
 			if (isset($htmlOptions['class']))
-				$htmlOptions['class'] .= ' '.CHtml::$errorCss;
+				$htmlOptions['class'] .= ' ' . CHtml::$errorCss;
 			else
 				$htmlOptions['class'] = CHtml::$errorCss;
 		}
@@ -288,11 +325,10 @@ class TbActiveForm extends CActiveForm
 		{
 			$uncheck = $htmlOptions['uncheckValue'];
 			unset($htmlOptions['uncheckValue']);
-		}
-		else
+		} else
 			$uncheck = '';
 
-		$hiddenOptions = isset($htmlOptions['id']) ? array('id' => CHtml::ID_PREFIX.$htmlOptions['id']) : array('id' => false);
+		$hiddenOptions = isset($htmlOptions['id']) ? array('id' => CHtml::ID_PREFIX . $htmlOptions['id']) : array('id' => false);
 		$hidden = $uncheck !== null ? CHtml::hiddenField($name, $uncheck, $hiddenOptions) : '';
 
 		if (isset($htmlOptions['template']))
@@ -326,7 +362,7 @@ class TbActiveForm extends CActiveForm
 		{
 			$checked = !is_array($select) && !strcmp($value, $select) || is_array($select) && in_array($value, $select);
 			$htmlOptions['value'] = $value;
-			$htmlOptions['id'] = $baseID.'_'.$id++;
+			$htmlOptions['id'] = $baseID . '_' . $id++;
 			$option = CHtml::$method($name, $checked, $htmlOptions);
 			$label = CHtml::label($label, $htmlOptions['id'], $labelOptions);
 			$items[] = strtr($template, array(
@@ -336,7 +372,7 @@ class TbActiveForm extends CActiveForm
 			));
 		}
 
-		return $hidden.implode('', $items);
+		return $hidden . implode('', $items);
 	}
 
 	/**
@@ -382,20 +418,20 @@ class TbActiveForm extends CActiveForm
 		if (!$enableAjaxValidation && !$enableClientValidation)
 			return $this->renderError($model, $attribute, $htmlOptions);
 
-		$id = CHtml::activeId($model,$attribute);
+		$id = CHtml::activeId($model, $attribute);
 		$inputID = isset($htmlOptions['inputID']) ? $htmlOptions['inputID'] : $id;
 		unset($htmlOptions['inputID']);
 		if (!isset($htmlOptions['id']))
-			$htmlOptions['id'] = $inputID.'_em_';
+			$htmlOptions['id'] = $inputID . '_em_';
 
 		$option = array(
-			'id'=>$id,
-			'inputID'=>$inputID,
-			'errorID'=>$htmlOptions['id'],
-			'model'=>get_class($model),
-			'name'=>CHtml::resolveName($model, $attribute),
-			'enableAjaxValidation'=>$enableAjaxValidation,
-			'inputContainer'=>'div.control-group', // Bootstrap requires this
+			'id' => $id,
+			'inputID' => $inputID,
+			'errorID' => $htmlOptions['id'],
+			'model' => get_class($model),
+			'name' => CHtml::resolveName($model, $attribute),
+			'enableAjaxValidation' => $enableAjaxValidation,
+			'inputContainer' => 'div.control-group', // Bootstrap requires this
 		);
 
 		$optionNames = array(
@@ -439,7 +475,7 @@ class TbActiveForm extends CActiveForm
 			}
 
 			if ($validators !== array())
-				$option['clientValidation'] = "js:function(value, messages, attribute) {\n".implode("\n", $validators)."\n}";
+				$option['clientValidation'] = "js:function(value, messages, attribute) {\n" . implode("\n", $validators) . "\n}";
 		}
 
 		$html = $this->renderError($model, $attribute, $htmlOptions);
@@ -447,7 +483,7 @@ class TbActiveForm extends CActiveForm
 		if ($html === '')
 		{
 			if (isset($htmlOptions['style']))
-				$htmlOptions['style'] = rtrim($htmlOptions['style'], ';').'; display: none';
+				$htmlOptions['style'] = rtrim($htmlOptions['style'], ';') . '; display: none';
 			else
 				$htmlOptions['style'] = 'display: none';
 
@@ -488,12 +524,12 @@ class TbActiveForm extends CActiveForm
 	{
 		ob_start();
 		Yii::app()->controller->widget($this->getInputClassName(), array(
-			'type'=>$type,
-			'form'=>$this,
-			'model'=>$model,
-			'attribute'=>$attribute,
-			'data'=>$data,
-			'htmlOptions'=>$htmlOptions,
+			'type' => $type,
+			'form' => $this,
+			'model' => $model,
+			'attribute' => $attribute,
+			'data' => $data,
+			'htmlOptions' => $htmlOptions,
 		));
 		return ob_get_clean();
 	}
@@ -504,29 +540,29 @@ class TbActiveForm extends CActiveForm
 	 */
 	protected function getInputClassName()
 	{
-        if (isset($this->input))
-            return $this->input;
-        else
-        {
-            switch ($this->type)
-            {
-                case self::TYPE_HORIZONTAL:
-                    return self::INPUT_HORIZONTAL;
-                    break;
+		if (isset($this->input))
+			return $this->input;
+		else
+		{
+			switch ($this->type)
+			{
+				case self::TYPE_HORIZONTAL:
+					return self::INPUT_HORIZONTAL;
+					break;
 
-                case self::TYPE_INLINE:
-                    return self::INPUT_INLINE;
-                    break;
+				case self::TYPE_INLINE:
+					return self::INPUT_INLINE;
+					break;
 
-                case self::TYPE_SEARCH:
-                    return self::INPUT_SEARCH;
-                    break;
+				case self::TYPE_SEARCH:
+					return self::INPUT_SEARCH;
+					break;
 
-                case self::TYPE_VERTICAL:
-                default:
-                    return self::INPUT_VERTICAL;
-                    break;
-            }
-        }
+				case self::TYPE_VERTICAL:
+				default:
+					return self::INPUT_VERTICAL;
+					break;
+			}
+		}
 	}
 }

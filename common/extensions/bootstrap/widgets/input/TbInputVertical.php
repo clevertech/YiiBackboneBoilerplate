@@ -7,7 +7,7 @@
  * @package bootstrap.widgets.input
  */
 
-Yii::import('bootstrap.widgets.input.BootInput');
+Yii::import('bootstrap.widgets.input.TbInput');
 
 /**
  * Bootstrap vertical form input widget.
@@ -167,4 +167,83 @@ class TbInputVertical extends TbInput
 		echo CHtml::tag('span', $this->htmlOptions, $this->model->{$this->attribute});
 		echo $this->getError().$this->getHint();
 	}
+
+	/**
+	 * Renders a datepicker field.
+	 * @return string the rendered content
+	 * @author antonio ramirez <antonio@clevertech.biz>
+	 */
+	protected function datepickerField()
+	{
+		if (isset($this->htmlOptions['options']))
+		{
+			$options = $this->htmlOptions['options'];
+			unset($this->htmlOptions['options']);
+		}
+
+		if (isset($this->htmlOptions['events']))
+		{
+			$events = $this->htmlOptions['events'];
+			unset($this->htmlOptions['events']);
+		}
+
+		echo $this->getLabel();
+		$this->widget('bootstrap.widgets.TbDatePicker', array(
+			'model'=>$this->model,
+			'attribute'=>$this->attribute,
+			'options'=>isset($options) ? $options : array(),
+			'events'=>isset($events) ? $events : array(),
+			'htmlOptions'=>$this->htmlOptions,
+		));
+		echo $this->getError().$this->getHint();
+	}
+
+	/**
+	 * Renders a redactorJs.
+	 * @return string the rendered content
+	 */
+	protected function redactorJs()
+	{
+		echo $this->getLabel();
+		$this->widget('bootstrap.widgets.TbRedactorJs', array(
+			'model' => $this->model,
+			'attribute' => $this->attribute,
+			'editorOptions' => isset($options) ? $options : array(),
+			'width' => isset($width) ? $width : '100%',
+			'height' => isset($height) ? $height : '400px',
+			'htmlOptions' => $this->htmlOptions
+		));
+		echo $this->getError().$this->getHint();
+	}
+
+	/**
+	 * Renders a daterange field.
+	 * @return string the rendered content
+	 * @author antonio ramirez <antonio@clevertech.biz>
+	 */
+	protected function dateRangeField()
+	{
+		if (isset($this->htmlOptions['options']))
+		{
+			$options = $this->htmlOptions['options'];
+			unset($this->htmlOptions['options']);
+		}
+
+		if (isset($options['callback']))
+		{
+			$callback = $options['callback'];
+			unset($options['callback']);
+		}
+
+		echo $this->getLabel();
+		$this->widget('bootstrap.widgets.TbDateRangePicker', array(
+			'model'=>$this->model,
+			'attribute'=>$this->attribute,
+			'options'=>isset($options) ? $options : array(),
+			'callback'=>isset($callback) ? $callback : array(),
+			'htmlOptions'=>$this->htmlOptions,
+		));
+		echo $this->getError().$this->getHint();
+	}
+
 }
