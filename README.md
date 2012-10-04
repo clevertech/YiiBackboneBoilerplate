@@ -74,7 +74,11 @@ To use this, from the application's root folder, simply run:
 * **environmentType** (required): can be "any" of the ones you configure on the **environments** folders (i.e. `./runpostdeploy private` to use ****-private.php*** configurations)
 * **migrations** (optional): could be "**migrate**"" or "**no-migrate**". 
 	* migrate: will run migrations
-	* no-migrate: will not run migrations (on private we won't run them anyway) 
+	* no-migrate: will not run migrations (on private we won't run them anyway)
+
+###YiiBooster library
+We have included [YiiBooster](http://yii-booster.clevertech.biz) widget library to the boilerplate. For more information regarding this library and its use
+please visit [YiiBooster Site](http://yii-booster.clevertech.biz).
 	
 ###Final Notes
 We would like to inform that this is just a startup **boilerplate** for your own projects. It is not intended by any means to be used ***'AS IS'***, but rather as a base to scale to more complicated structures.   
