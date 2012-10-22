@@ -79,12 +79,12 @@ return CMap::mergeArray(
 			),
 			'mailer' => array(
 				'class' => 'application.extensions.mailer.EMailer',
-			)
+			),
+			/* make sure you have your cache set correctly before uncommenting */
+			/* 'cache' => $params['cache.core'], */
+			/* 'contentCache' => $params['cache.content'] */
 
 		),
-		/* make sure you have your cache set correctly before uncommenting */
-		/* 'cache' => $params['cache.core'], */
-		/* 'contentCache' => $params['cache.content'] */
 	),
 	CMap::mergeArray($mainEnvConfiguration, $mainLocalConfiguration)
 );
