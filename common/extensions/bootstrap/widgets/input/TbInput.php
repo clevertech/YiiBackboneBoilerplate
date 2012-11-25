@@ -29,9 +29,14 @@ abstract class TbInput extends CInputWidget
 	const TYPE_UNEDITABLE = 'uneditable';
 	const TYPE_DATEPICKER = 'datepicker';
 	const TYPE_REDACTOR = 'redactor';
+	const TYPE_MARKDOWNEDITOR = 'markdowneditor';
 	const TYPE_HTML5EDITOR = 'wysihtml5';
 	const TYPE_DATERANGEPICKER = 'daterangepicker';
 	const TYPE_TOGGLEBUTTON = 'togglebutton';
+	const TYPE_COLORPICKER = 'colorpicker';
+	const TYPE_CKEDITOR = 'ckeditor';
+	const TYPE_TIMEPICKER = 'timepicker';
+	const TYPE_SELECT2 = 'select2';
 
 	/**
 	 * @var TbActiveForm the associated form widget.
@@ -243,6 +248,10 @@ abstract class TbInput extends CInputWidget
 				$this->redactorJs();
 				break;
 
+			case self::TYPE_MARKDOWNEDITOR:
+				$this->markdownEditorJs();
+				break;
+
 			case self::TYPE_HTML5EDITOR:
 				$this->html5Editor();
 				break;
@@ -253,6 +262,23 @@ abstract class TbInput extends CInputWidget
 
 			case self::TYPE_TOGGLEBUTTON:
 				$this->toggleButton();
+				break;
+
+			case self::TYPE_COLORPICKER:
+				$this->colorpickerField();
+				break;
+
+			case self::TYPE_CKEDITOR:
+				$this->ckEditor();
+				break;
+
+			// Adding timepicker (Sergii)
+			case self::TYPE_TIMEPICKER:
+				$this->timepickerField();
+				break;
+
+			case self::TYPE_SELECT2:
+				$this->select2Field();
 				break;
 
 			default:
@@ -511,6 +537,21 @@ abstract class TbInput extends CInputWidget
 	 */
 	abstract protected function redactorJs();
 
+
+	/**
+	 * Renders a markdownEditorJS wysiwyg field.
+	 * @abstract
+	 * @return mixed
+	 */
+	abstract protected function markdownEditorJs();
+
+	/**
+	 * Renders a bootstrap CKEditor wysiwyg editor.
+	 * @abstract
+	 * @return mixed
+	 */
+	abstract protected function ckEditor();
+
 	/**
 	 * Renders a bootstrap wysihtml5 editor.
 	 * @abstract
@@ -524,4 +565,24 @@ abstract class TbInput extends CInputWidget
 	 * @return mixed
 	 */
 	abstract protected function dateRangeField();
+
+	/**
+	 * Renders a colorpicker field.
+	 * @return string the rendered content
+	 * @abstract
+	 */
+	abstract protected function colorpickerField();
+
+	/**
+	 * Renders a timepicker field.
+	 * @return string the rendered content
+	 * @abstract
+	 */
+	abstract protected function timepickerField();
+
+	/**
+	 * Renders a select2 field.
+	 * @return mixed
+	 */
+	abstract protected function select2Field();
 }
